@@ -30,10 +30,16 @@ public class UserServiceTest {
                 .asFile();*/
                // resolve("WildFlyJpa:model").withTransitivity().asFile();
 //        PomEquippedResolveStage pomEquippedResolveStage = Maven.resolver().loadPomFromFile("pom.xml");
-        Maven.resolver().loadPomFromFile("/home/yaroslav/workspace/eduvation/WilfFly/core/pom.xml").
+
+
+/*        Maven.resolver().loadPomFromFile("/home/yaroslav/workspace/eduvation/WilfFly/core/pom.xml").
                 importCompileAndRuntimeDependencies().
                 resolve().withTransitivity().
-                asFile();
+                asFile();*/
+
+        Maven.resolver().resolve("WildFlyJpa:model:1.0-SNAPSHOT").withTransitivity().asFile();
+
+
         //DependencyResolvers.use(MavenDependencyResolver.class).artifact("WildFlyJpa:utils:1.0-SNAPSHOT").artifact("WildFlyJpa:model:1.0-SNAPSHOT");
 
         WebArchive war = ShrinkWrap.create(WebArchive.class).addPackages(true, "yaroslav.core");
