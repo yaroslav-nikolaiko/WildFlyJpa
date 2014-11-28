@@ -40,5 +40,27 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>Integration Tests</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <excludes>
+                            <exclude>**/persistence.xml</exclude>
+                        </excludes>
+                    </resource>
+                    <resource>
+                        <directory>src/test/resources</directory>
+                        <includes>
+                            <include>**/persistence.xml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

@@ -28,7 +28,8 @@ Instance<EntitiesListenerProvider> entitiesListenerProviderSource;*/
         try {
         InitialContext ic = new InitialContext();
 
-        EntitiesListenerProvider    entitiesListenerProvider = (EntitiesListenerProvider) ic.lookup("java:global/test/EntitiesListenerProviderImp");
+        //EntitiesListenerProvider    entitiesListenerProvider = (EntitiesListenerProvider) ic.lookup("java:global/test/EntitiesListenerProviderImp");
+        EntitiesListenerProvider    entitiesListenerProvider = (EntitiesListenerProvider) ic.lookup("java:module/EntitiesListenerProviderImp");
 
         entitiesListenerProvider.execute();
         } catch (NamingException e) {
