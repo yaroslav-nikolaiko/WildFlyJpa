@@ -90,57 +90,47 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-dist</artifactId>
-                                    <version>${wildfly-version}</version>
-                                    <type>zip</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>target</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+        </plugins>
+    </build>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IT.java</exclude>
-                    </excludes>
+    <profiles>
+        <profile>
+            <id>Integration Tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.wildfly</groupId>
+                                            <artifactId>wildfly-dist</artifactId>
+                                            <version>${wildfly-version}</version>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>target</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
 
-                </configuration>
-
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.17</version>
                         <configuration>
                             <excludes>
-                                <exclude>none</exclude>
+                                <exclude>**/*IT.java</exclude>
                             </excludes>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-
                             <!-- Fork every test because it will launch a separate AS instance -->
                             <forkMode>always</forkMode>
                             <systemPropertyVariables>
@@ -149,68 +139,31 @@
                                 <module.path>${project.basedir}/target/wildfly-${wildfly-version}/modules</module.path>
                             </systemPropertyVariables>
                             <redirectTestOutputToFile>false</redirectTestOutputToFile>
-
-
                         </configuration>
-                    </execution>
-                </executions>
 
-            </plugin>
-
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
-&lt;!&ndash;                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>2.12</version>
-                    </dependency>
-                </dependencies>&ndash;&gt;
-&lt;!&ndash;                <configuration>
-                    <excludedGroups>yaroslav.patients.database.model.utils.IntegrationTest</excludedGroups>
-                </configuration>&ndash;&gt;
-
-            </plugin>-->
-        </plugins>
-    </build>
-
-<!--    <profiles>
-        <profile>
-            <id>integration-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.17</version>
-                        <dependencies>
-                            <dependency>
-                                <groupId>org.apache.maven.surefire</groupId>
-                                <artifactId>surefire-junit47</artifactId>
-                                <version>2.12</version>
-                            </dependency>
-                        </dependencies>
-                        <configuration>
-                            <groups>yaroslav.patients.database.model.utils.IntegrationTest</groups>
-                        </configuration>
                         <executions>
                             <execution>
+                                <id>integration-test</id>
                                 <goals>
-                                    <goal>integration-test</goal>
+                                    <goal>test</goal>
                                 </goals>
+                                <phase>integration-test</phase>
                                 <configuration>
+                                    <excludes>
+                                        <exclude>none</exclude>
+                                    </excludes>
                                     <includes>
-                                        <include>**/*.class</include>
+                                        <include>**/*IT.java</include>
                                     </includes>
                                 </configuration>
                             </execution>
                         </executions>
+
                     </plugin>
                 </plugins>
             </build>
         </profile>
-    </profiles>-->
+    </profiles>
 
 
 </project>
