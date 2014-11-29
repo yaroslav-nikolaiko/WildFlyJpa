@@ -188,9 +188,6 @@
                                     </goals>
                                     <phase>none</phase>
                                     <configuration>
-                                        <excludes>
-                                            <exclude>**/*Test.java</exclude>
-                                        </excludes>
                                         <includes>
                                             <include>**/*IT.java</include>
                                         </includes>

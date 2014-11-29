@@ -22,8 +22,10 @@ public class UserServiceIT {
         System.out.println("User = "+ userService.get(1));
     }
 
+    @Test
+    public void testName() throws Exception {
 
 
 
-
+    }
 }
