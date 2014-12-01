@@ -3,13 +3,16 @@
 
     <persistence-unit name="TestUnit" transaction-type="JTA">
         <jta-data-source>java:/jdbc/Test</jta-data-source>
+        <class>yaroslav.model.Address</class>
         <!--<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>-->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.transaction.flush_before_completion" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
         </properties>
 
     </persistence-unit>
