@@ -17,7 +17,7 @@ public class EntitiesListenerProviderImp implements EntitiesListenerProvider {
     @Override
     public void execute() {
         System.out.println("INSIDE ENTITY LISTENER PROVIDER");
-        User user = userService.get(1);
+        User user = userService.get(1L);
         System.out.println("User inside listener PROVIDER = "+user);
     }
 }

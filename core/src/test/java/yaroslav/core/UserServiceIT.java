@@ -19,13 +19,7 @@ public class UserServiceIT {
     @Test
     public void mockTest(){
         System.out.println("Inside mock test");
-        System.out.println("User = "+ userService.get(1));
+        System.out.println("User = "+ userService.get(1L));
     }
 
-    @Test
-    public void testName() throws Exception {
-
-
-
-    }
 }
