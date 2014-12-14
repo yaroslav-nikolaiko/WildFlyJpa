@@ -3,8 +3,11 @@ package yaroslav.core;
 import org.apache.commons.io.FilenameUtils;
 import org.eu.ingwar.tools.arquillian.extension.suite.annotations.ArquillianSuiteDeployment;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.Node;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
@@ -30,11 +33,23 @@ public class Deployments {
                 withTransitivity().
                 asFile();*/
 
+        List<JavaArchive> libs = Maven.resolver().loadPomFromFile("pom.xml").
+                importCompileAndRuntimeDependencies().resolve().withTransitivity().asList(JavaArchive.class);
+
+        for (JavaArchive lib : libs) {
+            if(lib.getName().equals("model-1.0-SNAPSHOT.jar")){
+                lib.delete("/META-INF/persistence.xml");
+                Node node = lib.get("/META-INF/test/test-persistence.xml");
+//                lib.add(new ClassLoaderAsset("test-persistence.xml"), "/META-INF/persistence.xml");
+                lib.add(node.getAsset(), "/META-INF/persistence.xml");
+            }
+        }
+
 
 /*        File[] libs = Maven.resolver().loadPomFromFile("pom.xml").resolve("WildFlyJpa:utils",
                 "WildFlyJpa:model:jar:test:1.0-SNAPSHOT").withTransitivity().asFile();*/
 
-        File[] libs = resolveLibraries("WildFlyJpa:utils", "WildFlyJpa:model");
+        //File[] libs = resolveLibraries("WildFlyJpa:utils", "WildFlyJpa:model");
 
         //MavenStrategyStage model = Maven.resolver().loadPomFromFile("pom.xml").resolve("WildFlyJpa:model:test:?");
 
@@ -45,42 +60,4 @@ public class Deployments {
         return war;
     }
 
-
-    static File[] resolveLibraries(String... canonicalForms) {
-        List<File> result = new ArrayList<File>();
-        PomEquippedResolveStage resolver = Maven.resolver().loadPomFromFile("pom.xml");
-        for (String form : canonicalForms) {
-            System.out.println("INPUT FORM: "+form);
-            File lib = resolver.resolve(form).withoutTransitivity().asSingleFile();
-            String extension = FilenameUtils.getExtension(lib.getName());
-            String[] group_artifact = form.split(":");
-            String groupID = group_artifact[0];
-            String artifactID = group_artifact[1];
-
-            //Pattern pattern = Pattern.compile(String.format("^%s-(.*)\\.%s$", artifactID, extension));
-            String str = "^"+artifactID+"-(.*)\\."+extension+"$";
-            System.out.println("PATTERN = "+str);
-            Pattern pattern = Pattern.compile(str);
-            System.out.println("LIB NAME = "+lib.getName());
-            System.out.println("ARTIFACT ID = "+artifactID);
-            System.out.println("GROUP ID = "+groupID);
-            System.out.println("EXTENSION = "+extension);
-            Matcher matcher = pattern.matcher(lib.getName());
-            String version = null;
-            if(matcher.find()){
-                version = matcher.group(1);
-                System.out.println("VERSION = "+version );
-                try {
-                    lib = Maven.resolver().loadPomFromFile("pom.xml").
-                            resolve(String.format(groupID + ":" + artifactID + ":" + extension + ":" + TEST_CLASSIFIER + ":" + version)).
-                            withoutTransitivity().asSingleFile();
-
-                } catch (Exception ex){
-                    System.out.println("INSIDE EXCEPTION "+ex);
-                }
-            }
-            result.add(lib);
-        }
-        return result.toArray(new File[result.size()]);
-    }
 }
