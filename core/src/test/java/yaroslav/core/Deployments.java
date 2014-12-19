@@ -39,7 +39,7 @@ public class Deployments {
         for (JavaArchive lib : libs) {
             if(lib.getName().equals("model-1.0-SNAPSHOT.jar")){
                 lib.delete("/META-INF/persistence.xml");
-                Node node = lib.get("/META-INF/test/test-persistence.xml");
+                Node node = lib.get("/META-INF/test/persistence.xml");
 //                lib.add(new ClassLoaderAsset("test-persistence.xml"), "/META-INF/persistence.xml");
                 lib.add(node.getAsset(), "/META-INF/persistence.xml");
             }
