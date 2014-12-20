@@ -136,9 +136,9 @@
                                         <fileset dir="target">
                                             <include name="eclipselink-2.5.2.jar"/>
                                         </fileset>
-                                        <fileset dir="src/main/resources/wildfly-conf">
-                                            <include name="module.xml"/>
-                                        </fileset>
+                                        <copyfile src="src/main/resources/wildfly-conf/module.xml"
+                                                  dest="target/wildfly-${wildfly-version}/modules/system/layers/base/org/eclipse/persistence/main/module.xml"
+                                                  forceoverwrite="true"/>
                                     </copy>
                                 </tasks>
                             </configuration>
