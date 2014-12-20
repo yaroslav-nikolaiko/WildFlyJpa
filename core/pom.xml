@@ -124,7 +124,33 @@
                         </executions>
                     </plugin>
 
-                </plugins>
+                    <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>unpack-org.eclipse.help.webapp-jar</id>
+                            <phase>process-test-classes</phase>
+                            <configuration>
+                                <tasks>
+                                    <copy todir="target/wildfly-${wildfly-version}/modules/system/layers/base/org/eclipse/persistence/main">
+                                        <fileset dir="target">
+                                            <include name="eclipselink-2.5.2.jar"/>
+                                        </fileset>
+                                        <fileset dir="src/main/resources/wildfly-conf">
+                                            <include name="module.xml"/>
+                                        </fileset>
+                                    </copy>
+                                </tasks>
+                            </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+            </plugins>
             </build>
         </profile>
     </profiles>

@@ -111,6 +111,12 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 
@@ -139,7 +145,7 @@
                     <executions>
                         <execution>
                             <id>unpack wildfly</id>
-                            <phase>process-test-classes</phase>
+                            <phase>process-test-resources</phase>
                             <goals>
                                 <goal>unpack</goal>
                             </goals>
@@ -150,6 +156,26 @@
                                         <artifactId>wildfly-dist</artifactId>
                                         <version>${wildfly-version}</version>
                                         <type>zip</type>
+                                        <overWrite>false</overWrite>
+                                        <outputDirectory>target</outputDirectory>
+                                    </artifactItem>
+                                </artifactItems>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>copy eclipselink</id>
+                            <phase>process-test-resources</phase>
+                            <goals>
+                                <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <artifactItems>
+                                    <artifactItem>
+                                        <groupId>org.eclipse.persistence</groupId>
+                                        <artifactId>eclipselink</artifactId>
+                                        <version>2.5.2</version>
+                                        <type>jar</type>
                                         <overWrite>false</overWrite>
                                         <outputDirectory>target</outputDirectory>
                                     </artifactItem>
